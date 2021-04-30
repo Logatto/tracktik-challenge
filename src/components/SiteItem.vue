@@ -1,9 +1,11 @@
 <template>
   <div>
-    <v-list-item
-      to="/site/1"
-    >
-      <v-list-item-avatar size="50" class="align-self-center">
+    <v-list-item :to="isTypeItem ? `/site/1`: undefined">
+      <v-list-item-icon class="mr-4 align-self-center" v-if="isTypeDetail">
+        <v-icon medium @click="functionBack">mdi-chevron-left</v-icon>
+      </v-list-item-icon>
+
+      <v-list-item-avatar size="50" class="align-self-center" :class="{'mr-4': isTypeDetail}">
         <v-img :src="siteObject.image"></v-img>
       </v-list-item-avatar>
 
@@ -13,7 +15,7 @@
         <v-list-item-subtitle v-html="siteObject.contact"></v-list-item-subtitle>
       </v-list-item-content>
 
-      <v-list-item-action class="align-self-center">
+      <v-list-item-action class="align-self-center" v-if="isTypeItem">
         <v-icon
           color="grey lighten-1"
         >
@@ -33,6 +35,22 @@ export default {
       type: Object,
       required: true,
       default: null,
+    },
+    type: {
+      type: String,
+      default: 'item',
+    },
+    functionBack: {
+      type: Function,
+      default: null,
+    },
+  },
+  computed: {
+    isTypeItem() {
+      return this.type === 'item';
+    },
+    isTypeDetail() {
+      return this.type === 'detail';
     },
   },
 };
