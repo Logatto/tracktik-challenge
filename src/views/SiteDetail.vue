@@ -3,14 +3,18 @@
     class="mx-auto"
   >
     <v-list three-line class="blue" dark>
-      <site-item :site-object="item" type="detail" :function-back="goBack" />
+      <site-item :site-object="site" type="detail" :function-back="goBack" />
     </v-list>
 
-    <v-list two-line>
-      <site-contact-item icon="mdi-account" title="Title" subtitle="Subtitle"/>
-      <site-contact-item icon="mdi-phone" title="Title" subtitle="Subtitle"/>
-      <site-contact-item icon="mdi-email" title="Title" subtitle="Subtitle"/>
-      <site-contact-item icon="mdi-map-marker" title="Title" subtitle="Subtitle"/>
+    <v-list two-line v-if="site.contacts">
+      <site-contact-item icon="mdi-account"
+        :title="site.contacts.main | fullName"
+        :subtitle="site.contacts.main.jobTitle"/>
+      <site-contact-item icon="mdi-phone"
+        :title="site.contacts.main.phoneNumber"/>
+      <site-contact-item icon="mdi-email" :title="site.contacts.main.email"/>
+      <site-contact-item icon="mdi-map-marker"
+        :title="site.contacts.main.address | addressFormat"/>
     </v-list>
   </v-card>
 </template>
@@ -18,6 +22,7 @@
 
 import SiteItem from '@/components/SiteItem.vue';
 import SiteContactItem from '@/components/SiteContactItem.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'SiteDetail',
@@ -25,18 +30,18 @@ export default {
     SiteItem,
     SiteContactItem,
   },
-  data: () => ({
-    item: {
-      image: 'http://lorempixel.com/640/480/city',
-      name: 'Electronics HQ',
-      address: '611 Miller Glen',
-      contact: '533.880.9306 x0425',
-    },
-  }),
+  data: () => ({}),
   methods: {
     goBack() {
-      return window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/');
+      return this.$router.push('/');
     },
+  },
+  computed: {
+    ...mapState({ site: (state) => state.site.siteDetail }),
+  },
+  async mounted() {
+    const { id } = this.$route.params;
+    await this.$store.dispatch('site/getSiteById', id);
   },
 };
 </script>

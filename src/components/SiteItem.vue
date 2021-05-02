@@ -1,18 +1,20 @@
 <template>
   <div>
-    <v-list-item :to="isTypeItem ? `/site/1`: undefined">
+    <v-list-item :to="isTypeItem ? `/site/${siteObject.id}`: undefined">
       <v-list-item-icon class="mr-4 align-self-center" v-if="isTypeDetail">
         <v-icon medium @click="functionBack">mdi-chevron-left</v-icon>
       </v-list-item-icon>
 
       <v-list-item-avatar size="50" class="align-self-center" :class="{'mr-4': isTypeDetail}">
-        <v-img :src="siteObject.image"></v-img>
+        <v-img :src="siteObject.images[0]" v-if="siteObject.images"></v-img>
       </v-list-item-avatar>
 
       <v-list-item-content>
-        <v-list-item-title v-html="siteObject.name"></v-list-item-title>
-        <v-list-item-subtitle v-html="siteObject.address"></v-list-item-subtitle>
-        <v-list-item-subtitle v-html="siteObject.contact"></v-list-item-subtitle>
+        <v-list-item-title v-html="siteObject.title"></v-list-item-title>
+        <v-list-item-subtitle
+          :inner-html.prop="siteObject.address | addressFormat"></v-list-item-subtitle>
+        <v-list-item-subtitle
+          :inner-html.prop="siteObject.contacts.main | fullName"></v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-action class="align-self-center" v-if="isTypeItem">
