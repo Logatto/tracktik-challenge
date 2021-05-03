@@ -9,7 +9,9 @@ async function Client(url = '', data = {}, method = 'GET') {
   };
 
   const response = await fetch(url, options);
-  return response.json();
+  const totalCount = response.headers.get('X-Total-Count');
+
+  return { result: await response.json(), status: response.status, meta: { totalCount } };
 }
 
 export default Client;

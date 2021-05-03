@@ -14,6 +14,7 @@
         <v-list-item-subtitle
           :inner-html.prop="siteObject.address | addressFormat"></v-list-item-subtitle>
         <v-list-item-subtitle
+          v-if="siteObject.contacts"
           :inner-html.prop="siteObject.contacts.main | fullName"></v-list-item-subtitle>
       </v-list-item-content>
 

@@ -1,33 +1,44 @@
 import Repository from '@/respositories/RepositoryFactory';
 
 const SiteRepository = Repository.get('site');
+const limit = 10;
 
 const state = {
   siteDetail: {},
   sites: [],
   currentPage: 1,
+  totalCount: null,
 };
 
 const actions = {
-  async getSites({ commit, state }) {
-    const { currentPage } = state;
+  async getSites({ commit, state }, { searchWord = null, order = null }) {
+    const { currentPage, totalCount } = state;
+    const currentCount = limit * (currentPage - 1);
 
-    if (currentPage == null) return;
+    if (totalCount != null && currentCount >= totalCount) return;
 
-    const result = await SiteRepository.getSitesPaginate({ page: currentPage });
-    if (result.length) {
-      if (currentPage > 1) {
-        commit('APPEND_SITES', result);
-      } else {
-        commit('SET_SITES', result);
-      }
-      commit('INCREMENT_CURRENT_PAGE');
+    const {
+      result,
+      meta,
+    } = await SiteRepository.getSitesPaginate({
+      page: currentPage, limit, searchWord, order,
+    });
+
+    if (currentPage > 1) {
+      commit('APPEND_SITES', result);
     } else {
-      commit('COMPLETED_CURRENT_PAGE');
+      commit('SET_SITES', result);
     }
+    commit('SET_TOTAL_COUNT', meta.totalCount);
+    commit('INCREMENT_CURRENT_PAGE');
   },
   async getSiteById({ commit }, id) {
-    commit('SET_SITE_DETAIL', await SiteRepository.getSiteById(id));
+    const { result } = await SiteRepository.getSiteById(id);
+    commit('SET_SITE_DETAIL', result);
+  },
+  resetCurrentPage({ commit }) {
+    commit('SET_CURRENT_PAGE', 1);
+    commit('SET_TOTAL_COUNT', null);
   },
 };
 
@@ -41,8 +52,11 @@ const mutations = {
   INCREMENT_CURRENT_PAGE(state) {
     state.currentPage += 1;
   },
-  COMPLETED_CURRENT_PAGE(state) {
-    state.currentPage = null;
+  SET_CURRENT_PAGE(state, currentPage) {
+    state.currentPage = currentPage;
+  },
+  SET_TOTAL_COUNT(state, totalCount) {
+    state.totalCount = totalCount;
   },
   SET_SITE_DETAIL(state, siteDetail) {
     state.siteDetail = siteDetail;

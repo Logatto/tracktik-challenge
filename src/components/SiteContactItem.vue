@@ -8,8 +8,8 @@
       </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title>{{ title }}</v-list-item-title>
-        <v-list-item-subtitle>{{ subtitle }}</v-list-item-subtitle>
+        <v-list-item-title v-html="title"></v-list-item-title>
+        <v-list-item-subtitle v-html="subtitle"></v-list-item-subtitle>
       </v-list-item-content>
 
     </v-list-item>

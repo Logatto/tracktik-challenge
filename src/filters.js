@@ -1,11 +1,17 @@
 import Vue from 'vue';
 
 Vue.filter('addressFormat', (address) => {
-  const { street, city } = address;
-  return `${street}, ${city}`;
+  if (address) {
+    const { street, city } = address;
+    return `${street}, ${city}`;
+  }
+  return '';
 });
 
 Vue.filter('fullName', (contact) => {
-  const { firstName, lastName } = contact;
-  return `${firstName} ${lastName}`;
+  if (contact) {
+    const { firstName, lastName } = contact;
+    return `${firstName} ${lastName}`;
+  }
+  return '';
 });
