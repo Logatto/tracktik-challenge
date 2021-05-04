@@ -6,7 +6,11 @@
       </v-list-item-icon>
 
       <v-list-item-avatar size="50" class="align-self-center" :class="{'mr-4': isTypeDetail}">
-        <v-img :src="get(siteObject.images, 0)" v-if="siteObject.images"></v-img>
+        <v-img
+          :src="get(siteObject.images, 0)"
+          v-if="siteObject.images"
+          :lazy-src="defaultImg"
+        />
       </v-list-item-avatar>
 
       <v-list-item-content>
@@ -32,9 +36,13 @@
 
 <script>
 import get from 'lodash/get';
+import defaultImg from '@/assets/img/default-site.jpg';
 
 export default {
   name: 'SiteItem',
+  data: () => ({
+    defaultImg,
+  }),
   props: {
     siteObject: {
       type: Object,
