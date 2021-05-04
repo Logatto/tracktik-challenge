@@ -1,6 +1,8 @@
 <template>
   <v-app id="app">
     <v-navigation-drawer
+      color="blue"
+      dark
       v-model="drawer"
       app
     >

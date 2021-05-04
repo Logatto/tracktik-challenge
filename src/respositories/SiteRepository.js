@@ -1,6 +1,6 @@
 import Client from './Clients/FetchClient';
 
-const baseApi = process.env.VUE_APP_BASEAPI;
+const baseApi = process.env.VUE_APP_BASEAPI || 'https://tracktik-challenge.staffr.com';
 
 export default {
   getSitesPaginate({

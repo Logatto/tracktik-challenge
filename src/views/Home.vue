@@ -2,11 +2,14 @@
   <div class="home">
     <search-filter-tool @search="onSearchByWord" @order="onOrder"/>
 
-    <v-list three-line>
+    <v-list three-line v-if="sites.length">
       <site-item v-for="(item, index) in sites" :key="index" :site-object="item" />
     </v-list>
 
-    <!-- <empty-state></empty-state> -->
+    <empty-state
+      v-else-if="sites.length === 0 && searchWord"
+      icon="mdi-briefcase-search" title="No results to show"
+    />
 
     <v-btn
       color="blue"
@@ -27,7 +30,7 @@
 <script>
 import SearchFilterTool from '@/components/SearchFilterTool.vue';
 import SiteItem from '@/components/SiteItem.vue';
-// import EmptyState from '@/components/EmptyState.vue';
+import EmptyState from '@/components/EmptyState.vue';
 import { mapState } from 'vuex';
 import debounce from 'lodash/debounce';
 import goTo from 'vuetify/es5/services/goto';
@@ -37,7 +40,7 @@ export default {
   components: {
     SearchFilterTool,
     SiteItem,
-    // EmptyState,
+    EmptyState,
   },
   data: () => ({
     searchWord: null,

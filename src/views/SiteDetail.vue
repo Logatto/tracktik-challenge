@@ -6,6 +6,8 @@
       <site-item :site-object="site" type="detail" :function-back="goBack" />
     </v-list>
 
+    <v-img :src="get(site.images, 1)" max-height="400" contain/>
+
     <v-list two-line v-if="site.contacts">
       <site-contact-item icon="mdi-account"
         :title="site.contacts.main | fullName"
@@ -23,6 +25,7 @@
 import SiteItem from '@/components/SiteItem.vue';
 import SiteContactItem from '@/components/SiteContactItem.vue';
 import { mapState } from 'vuex';
+import get from 'lodash/get';
 
 export default {
   name: 'SiteDetail',
@@ -35,6 +38,7 @@ export default {
     goBack() {
       return this.$router.push('/');
     },
+    get,
   },
   computed: {
     ...mapState({ site: (state) => state.site.siteDetail }),

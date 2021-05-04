@@ -6,7 +6,7 @@
       </v-list-item-icon>
 
       <v-list-item-avatar size="50" class="align-self-center" :class="{'mr-4': isTypeDetail}">
-        <v-img :src="siteObject.images[0]" v-if="siteObject.images"></v-img>
+        <v-img :src="get(siteObject.images, 0)" v-if="siteObject.images"></v-img>
       </v-list-item-avatar>
 
       <v-list-item-content>
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import get from 'lodash/get';
+
 export default {
   name: 'SiteItem',
   props: {
@@ -55,6 +57,9 @@ export default {
     isTypeDetail() {
       return this.type === 'detail';
     },
+  },
+  methods: {
+    get,
   },
 };
 </script>
