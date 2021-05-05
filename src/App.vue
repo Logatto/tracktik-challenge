@@ -49,17 +49,37 @@
 
     <v-main>
       <router-view></router-view>
+
+      <dialog-add-schedule />
+      <dialog-remove-schedule />
+
+      <v-snackbar
+        v-model="snackbar.isActive"
+        :color="snackbar.style"
+        :timeout="snackbar.timeout"> {{ snackbar.title }}</v-snackbar>
+
     </v-main>
   </v-app>
 </template>
 
 <script>
+import DialogAddSchedule from '@/components/DialogAddSchedule.vue';
+import { mapState } from 'vuex';
+import DialogRemoveSchedule from '@/components/DialogRemoveSchedule.vue';
+
 export default {
+  components: { DialogAddSchedule, DialogRemoveSchedule },
   data: () => ({
     drawer: null,
     menus: [
       { title: 'Sites', icon: 'mdi-domain', link: '/' },
+      { title: 'Schedule List', icon: 'mdi-domain', link: '/schedule-list' },
     ],
   }),
+  computed: {
+    ...mapState({
+      snackbar: (state) => state.ui.snackbar,
+    }),
+  },
 };
 </script>

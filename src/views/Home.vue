@@ -11,19 +11,8 @@
       icon="mdi-briefcase-search" title="No results to show"
     />
 
-    <v-btn
-      color="blue"
-      fab
-      large
-      dark
-      bottom
-      right
-      fixed
-      @click="goToTop"
-      class="btn-up"
-    >
-      <v-icon>mdi-arrow-up-circle</v-icon>
-    </v-btn>
+    <arrow-top />
+
   </div>
 </template>
 
@@ -31,9 +20,9 @@
 import SearchFilterTool from '@/components/SearchFilterTool.vue';
 import SiteItem from '@/components/SiteItem.vue';
 import EmptyState from '@/components/EmptyState.vue';
+import ArrowTop from '@/components/ArrowTop.vue';
 import { mapState } from 'vuex';
 import debounce from 'lodash/debounce';
-import goTo from 'vuetify/es5/services/goto';
 
 export default {
   name: 'Home',
@@ -41,6 +30,7 @@ export default {
     SearchFilterTool,
     SiteItem,
     EmptyState,
+    ArrowTop,
   },
   data: () => ({
     searchWord: null,
@@ -64,9 +54,6 @@ export default {
       this.orderNameDirection = value;
       this.$store.dispatch('site/resetCurrentPage');
       this.loadSites();
-    },
-    goToTop() {
-      goTo(0);
     },
   },
   mounted() {

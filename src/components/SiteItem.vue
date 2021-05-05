@@ -22,12 +22,29 @@
           :inner-html.prop="siteObject.contacts.main | fullName"></v-list-item-subtitle>
       </v-list-item-content>
 
-      <v-list-item-action class="align-self-center" v-if="isTypeItem">
-        <v-icon
-          color="grey lighten-1"
-        >
-          mdi-chevron-right
-        </v-icon>
+      <v-list-item-action class="d-flex align-self-center justify-end flex-row" v-if="isTypeItem">
+        <v-btn color="green" icon small outlined
+          @click.prevent="onClickAdd" v-if="!existSiteInList(siteObject)">
+          <v-icon
+            color="green"
+          >
+            mdi-plus
+          </v-icon>
+        </v-btn>
+        <v-btn color="red" icon small outlined @click.prevent="onClickRemove" v-else>
+          <v-icon
+            color="red"
+          >
+            mdi-close
+          </v-icon>
+        </v-btn>
+        <v-btn icon small>
+          <v-icon
+            color="grey lighten-1"
+          >
+            mdi-chevron-right
+          </v-icon>
+        </v-btn>
       </v-list-item-action>
     </v-list-item>
     <v-divider />
@@ -37,6 +54,7 @@
 <script>
 import get from 'lodash/get';
 import defaultImg from '@/assets/img/default-site.jpg';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'SiteItem',
@@ -65,9 +83,18 @@ export default {
     isTypeDetail() {
       return this.type === 'detail';
     },
+    ...mapGetters({
+      existSiteInList: 'schedule/existSiteInList',
+    }),
   },
   methods: {
     get,
+    onClickAdd() {
+      this.$store.dispatch('ui/openDialogAdd', this.siteObject);
+    },
+    onClickRemove() {
+      this.$store.dispatch('ui/openDialogRemove', this.siteObject);
+    },
   },
 };
 </script>

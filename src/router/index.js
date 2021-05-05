@@ -15,6 +15,11 @@ const routes = [
     name: 'SiteDetail',
     component: () => import('../views/SiteDetail.vue'),
   },
+  {
+    path: '/schedule-list',
+    name: 'ScheduleList',
+    component: () => import('../views/ScheduleList.vue'),
+  },
 ];
 
 const router = new VueRouter({
