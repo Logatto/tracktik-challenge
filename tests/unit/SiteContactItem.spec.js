@@ -1,8 +1,8 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import SiteContactItem from '@/components/SiteContactItem.vue';
 import filters from '@/filters';
-import Vuex from "vuex";
-import Vuetify from 'vuetify'
+import Vuex from 'vuex';
+import Vuetify from 'vuetify';
 import Vue from 'vue';
 
 Vue.use(Vuetify);
@@ -17,20 +17,18 @@ function createConfig(props = {}) {
     $store: {
       state: {},
       dispatch: () => {},
-      getters: {}
+      getters: {},
     },
   };
-  return Object.assign({ propsData, stubs, mocks });
+  return { propsData, stubs, mocks };
 }
 
-const factory = (config) => {
-  return shallowMount(SiteContactItem, {
-    propsData: config.propsData,
-    stubs: config.stubs,
-    mocks: config.mocks,
-    localVue,
-  });
-};
+const factory = (config) => shallowMount(SiteContactItem, {
+  propsData: config.propsData,
+  stubs: config.stubs,
+  mocks: config.mocks,
+  localVue,
+});
 
 describe('SiteContactItem.vue', () => {
   it('renders props when passed', () => {
