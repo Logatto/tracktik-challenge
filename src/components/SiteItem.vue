@@ -73,7 +73,7 @@ export default {
     },
     functionBack: {
       type: Function,
-      default: null,
+      default: () => {},
     },
   },
   computed: {
